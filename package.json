@@ -1,0 +1,26 @@
+{
+  "name": "vue-autocompile",
+  "main": "./lib/vue-autocompile",
+  "version": "0.0.0",
+  "description": "Auto compiles vue in atom",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/paulpflug/vue-autocompile"
+  },
+  "activationCommands": {
+    "atom-text-editor": [
+      "core:save"
+    ]
+  },
+  "license": "MIT",
+  "engines": {
+    "atom": ">0.50.0"
+  },
+  "dependencies": {
+    "atom-simple-logger": "~0.0.1",
+    "vue-compiler": "~0.0.1"
+  },
+  "dev-dependencies": {
+    "atom-package-reloader": "~0.0.2"
+  }
+}
