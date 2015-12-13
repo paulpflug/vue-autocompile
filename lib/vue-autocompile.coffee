@@ -80,6 +80,7 @@ module.exports = new class VueAutocompile
     vueCompiler = spawn sh, args, {
       cwd: process.cwd
       detached: true
+      env: PATH:process.env.PATH
     }
     stderrData = []
     vueCompiler.stderr.setEncoding("utf8")
