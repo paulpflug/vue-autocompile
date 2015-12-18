@@ -23,6 +23,10 @@ compress (bool): compress JS file (defaults to true) # currently not supported
 // out: . ,compress: false
 ```
 
+Uses the vue-compiler installation of your current project, but falls back to its own vue-compiler installation if there is none. Never uses a global one.
+
+Vue-compiler is called over its own cli, so it runs in node and not in atom.
+
 ## License
 Copyright (c) 2015 Paul Pflugradt
 Licensed under the MIT license.
