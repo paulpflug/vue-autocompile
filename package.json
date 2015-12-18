@@ -18,7 +18,7 @@
   },
   "dependencies": {
     "atom-simple-logger": "~0.0.1",
-    "vue-compiler": "~0.0.1"
+    "vue-compiler": "~0.0.2"
   },
   "dev-dependencies": {
     "atom-package-reloader": "~0.0.2"
