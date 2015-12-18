@@ -17,10 +17,18 @@
     "atom": ">0.50.0"
   },
   "dependencies": {
-    "atom-simple-logger": "~0.0.1",
     "vue-compiler": "~0.0.2"
   },
-  "dev-dependencies": {
-    "atom-package-reloader": "~0.0.2"
+  "consumedServices": {
+    "autoreload": {
+      "versions": {
+        "^0.0.1": "consumeAutoreload"
+      }
+    },
+    "debug": {
+      "versions": {
+        "^0.0.1": "consumeDebug"
+      }
+    }
   }
 }

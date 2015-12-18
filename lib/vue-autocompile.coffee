@@ -1,5 +1,3 @@
-log = null
-reloader = null
 spawn = null
 path = null
 vueCompiler = null
@@ -11,41 +9,35 @@ module.exports = new class VueAutocompile
       type: "integer"
       default: 0
       minimum: 0
+  debug: ->
+  consumeDebug: (debugSetup) =>
+    @debug = debugSetup(pkg: pkgName, nsp:"")
+    @debug "debug service consumed", 2
+  consumeAutoreload: (reloader) =>
+    reloader(pkg:pkgName)
+    @debug "autoreload service consumed", 2
   activate: ->
-    if atom.inDevMode()
-      setTimeout (->
-        reloaderSettings = pkg:pkgName,folders:["lib"]
-        try
-          reloader ?= require("atom-package-reloader")(reloaderSettings)
-        ),500
-
-    unless log?
-      log = require("atom-simple-logger")(pkg:pkgName,nsp:"main")
-      log "activating"
     @disposable = atom.commands.add 'atom-workspace', 'core:save', @handleSave
 
   deactivate: ->
-    log "deactivating"
+    @debug "deactivating"
     @disposable.dispose()
-    log = null
-    reloader?.dispose()
-    reloader = null
     spawn = null
     path = null
     vueCompiler.kill("SIGHUP") if vueCompiler?
     vueCompiler = null
 
   handleSave: =>
-    log "got save - is vue?"
+    @debug "got save - is vue?"
     @activeEditor = atom.workspace.getActiveTextEditor()
     return unless @activeEditor?
     path = @activeEditor.getURI()
     return unless path.match /.*\.vue$/
-    log "is vue!"
+    @debug "is vue!"
     text = @activeEditor.getText()
     firstComment = text.match /^\s*(\/\/.*)\n*/
     return unless firstComment? and firstComment[1]?
-    log "found comment"
+    @debug "found comment"
     paramsString = firstComment[1].replace(/^\/\/\s*/, "").replace(/\s/g,"")
 
     params = path: path
@@ -57,7 +49,7 @@ module.exports = new class VueAutocompile
       atom.notifications.addError "no output path provided"
     params.compress = true unless params.compress?
     params.compress = @parseBoolean params.compress
-    log "rendering"
+    @debug "rendering"
     @render(params)
 
 
@@ -66,7 +58,12 @@ module.exports = new class VueAutocompile
     path = require "path"
     vueCompiler.kill("SIGHUP") if vueCompiler?
     sh = "sh"
-    vueString = path.resolve(path.dirname(module.filename),
+    relativePath = atom.project.relativizePath params.path
+    if relativePath[0]? # within a project folder
+      tmpString = path.resolve(relativePath[0],"./node_modules/.bin/vue-compiler")
+      try
+        vueString = tmpString if fs.statSync(tmpString).isFile()
+    vueString ?= path.resolve(path.dirname(module.filename),
                             "../node_modules/.bin/vue-compiler")
     #unless params.compress
       #vueString += " --pretty"

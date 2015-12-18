@@ -22,3 +22,7 @@ compress (bool): compress JS file (defaults to true) # currently not supported
 ```
 // out: . ,compress: false
 ```
+
+## License
+Copyright (c) 2015 Paul Pflugradt
+Licensed under the MIT license.
