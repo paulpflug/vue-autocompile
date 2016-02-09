@@ -1,7 +1,7 @@
 {
   "name": "vue-autocompile",
   "main": "./lib/vue-autocompile",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Auto compiles vue in atom",
   "repository": {
     "type": "git",
