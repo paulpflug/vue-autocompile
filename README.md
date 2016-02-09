@@ -8,7 +8,7 @@ Add the parameters on the first line of the vue file.
 
 ```
 out (string): relative path to html file to create
-compress (bool): compress JS file (defaults to true) # currently not supported
+hot (bool): should it contain vue-hot-reload-api (default:false)
 ```
 
 ```
@@ -20,7 +20,7 @@ compress (bool): compress JS file (defaults to true) # currently not supported
 ```
 
 ```
-// out: . ,compress: false
+// out: . ,hot: true
 ```
 
 Uses the vue-compiler installation of your current project, but falls back to its own vue-compiler installation if there is none. Never uses a global one.

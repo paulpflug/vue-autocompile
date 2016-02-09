@@ -45,12 +45,11 @@ module.exports = new class VueAutocompile
       [key, value] = param.split ":"
       continue unless key? and value?
       params[key] = value
-    unless params.out?
-      atom.notifications.addError "no output path provided"
-    params.compress = true unless params.compress?
-    params.compress = @parseBoolean params.compress
-    @debug "rendering"
-    @render(params)
+    if params.out
+      params.hot ?= false
+      params.hot = @parseBoolean params.hot
+      @debug "rendering"
+      @render(params)
 
 
   render: (params) ->
@@ -74,10 +73,13 @@ module.exports = new class VueAutocompile
     if process.platform == "win32"
       sh = "cmd"
       args[0] = "/c"
+    env = PATH: process.env.PATH
+    env.NODE_ENV = "production" unless params.hot
+
     vueCompiler = spawn sh, args, {
       cwd: process.cwd
       detached: true
-      env: PATH:process.env.PATH
+      env: env
     }
     stderrData = []
     vueCompiler.stderr.setEncoding("utf8")
