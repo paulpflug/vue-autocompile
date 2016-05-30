@@ -32,6 +32,7 @@ module.exports = new class VueAutocompile
     @activeEditor = atom.workspace.getActiveTextEditor()
     return unless @activeEditor?
     path = @activeEditor.getURI()
+    return unless path?
     return unless path.match /.*\.vue$/
     @debug "is vue!"
     text = @activeEditor.getText()
